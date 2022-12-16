@@ -2,5 +2,6 @@
 # configures a new Ubuntu machine to respect certain requirements
 sudo apt-get -y update
 sudo apt-get -y install nginx
-echo "Habtamu @ALXSchool" > /var/www/html/index.nginx-debian.html
+sudo chown -R $USER:$USER /var/www
+echo "Hello World" > /var/www/html/index.html
 sudo service nginx start
