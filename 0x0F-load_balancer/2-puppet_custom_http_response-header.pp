@@ -1,16 +1,21 @@
-# Add HTTP header Puppet
-
-exec { 'Nginx Header':
-command => 'sudo apt-get -y install haproxy;
-echo "ENABLED=1" >> /etc/default/haproxy;
-printf %s "listen holb
-    bind *:80
-    mode http
-    balance roundrobin
-    server 1432-web-01 35.190.159.176:80 check
-    server 1432-web-02 35.229.61.48:80 check
-" >> /etc/haproxy/haproxy.cfg;
-sudo service haproxy restart;
-',
-provider   => 'shell',
+# configures an ubuntu server using puppet as follows:
+#	- apt-get update
+#	- apt-get install nginx
+#	- set X-Served-By -> $HOSTNAME
+#	- service restart
+exec { '/usr/bin/env apt-get -y update' : }
+-> package { 'nginx' :
+  ensure => installed,
+}
+-> file { '/var/www/html/index.html' :
+  content => 'Holberton School!',
+}
+-> file_line { 'add header':
+  ensure => present,
+  path   => '/etc/nginx/sites-available/default',
+  line   => "\tadd_header X-Served-By ${hostname};",
+  after  => 'server_name _;',
+}
+-> service { 'nginx':
+  ensure => running,
 }
