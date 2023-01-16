@@ -25,3 +25,4 @@ if __name__ == "__main__":
     d = {argv[1]: l}
     with open("{}.json".format(argv[1]), "w") as f:
         json.dump(d, f)
+        
