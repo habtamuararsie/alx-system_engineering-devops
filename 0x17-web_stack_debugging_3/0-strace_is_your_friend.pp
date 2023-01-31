@@ -1,5 +1,6 @@
-# fixing file typo
-exec {'fixing':
-command => 'sed -i "s/phpp/php/g" /var/www/html/wp-settings.php',
-path    => ['/bin'],
+# Fixes bad `phpp` extensions to `php`
+
+exec { 'fix-wordpress':
+  command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
+  path    => '/usr/local/bin/:/bin/'
 }
