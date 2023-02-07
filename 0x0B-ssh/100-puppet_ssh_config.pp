@@ -50,5 +50,4 @@ Host *
     SendEnv LANG LC_*
     HashKnownHosts yes
     GSSAPIAuthentication yes
-'
-}
+'}
