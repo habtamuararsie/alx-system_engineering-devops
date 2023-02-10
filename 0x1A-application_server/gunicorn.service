@@ -1,19 +1,12 @@
-[Unit]
-Description=gunicorn daemon for hbnb
-After=network.target
-Requires=gunicorn.socket
+# created new file /etc/init/airbnb-onepage.conf in web server 1
+description "Gunicorn application server running 0-hello_route flask app"
 
-[Service]
-User=ubunt
-Group=www-data1
+start on runlevel [2345]
+stop on runlevel [!2345]
 
-WorkingDirectory=/home/habte/AirBnB_clone_v4
-ExecStart=/usr/bin/gunicorn \
-          --error-logfile /tmp/airbnb-error.log \
-          --access-logfile /tmp/airbnb-access.log \
-          --bind unix:/0.0.0.0:5003 \
-          --workers 3 \
-          web_dynamic.2-hbnb:app
+respawn
+setuid ubuntu
+setgid root
 
-[Install]
-WantedBy=multi-user.target
+chdir /home/ubuntu/AirBnB_clone_v2/web_flask
+exec gunicorn --workers 1 --bind 127.0.0.1:8000 -m 007 0-hello_route:app
